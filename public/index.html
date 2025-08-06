@@ -1,144 +1,158 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>WHATSAPP BAN PANEL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🌍 TERMINATOR INTERNATIONAL</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #0d47a1, #1976d2);
-      color: white;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-    }
-    .container {
-      max-width: 800px;
-      margin: 80px auto;
+      font-family: 'Courier New', monospace;
+      background: #000;
+      color: #0f0;
       padding: 20px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 20px;
-      box-shadow: 0 0 25px rgba(0, 0, 255, 0.3);
     }
+header {
+      text-align: center;
+      padding: 2em 1em;
+      background-color: rgba(0, 0, 0, 0.6);
+      box-shadow: 0 0 25px #00fff7;
+    }
+
     h1 {
-      text-align: center;
-      font-size: 2.5em;
+      font-size: 2.2em;
+      color: #00fff7;
+      text-shadow: 0 0 15px #00fff7;
+    }
+.title-image {
+  width: 100%;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 16px 16px;
+}
+.step-line {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.delay1 { animation-delay: 0.5s; }
+.delay2 { animation-delay: 1s; }
+.delay3 { animation-delay: 1.5s; }
+.delay4 { animation-delay: 2s; }
+.delay5 { animation-delay: 2.5s; }
+.delay6 { animation-delay: 3s; }
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.title-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 0 0 16px 16px;
+}
+
+@media (max-width: 600px) {
+  .title-image img {
+    border-radius: 0 0 12px 12px;
+  }
+}
+.wa-channels {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.wa-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #25D366;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transition: background 0.2s ease;
+}
+
+.wa-button:hover {
+  background: #1ebf5c;
+}
+
+.wa-button img {
+  width: 20px;
+  height: 20px;
+}
+    .step {
+      background: #111;
+      border: 1px solid #0f0;
+      padding: 15px;
       margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #0f0;
     }
-    .clock {
-      text-align: center;
-      font-size: 1.2em;
-      margin-bottom: 30px;
+
+    .step h2 {
+      color: #0ff;
+      margin: 0 0 10px 0;
     }
-    .form-group {
-      text-align: center;
-      margin-bottom: 20px;
+
+    .step p {
+      margin: 0;
+      color: #eee;
     }
-    input[type="text"] {
-      padding: 12px;
-      font-size: 1em;
-      border: none;
-      border-radius: 10px;
-      width: 70%;
+.advbox {
+  background: #1a0000;
+  color: #ff3333;
+  border: 1px solid #ff0000;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 15px;
+  box-shadow: 0 0 15px #ff0000;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  user-select: none;
+}
+
+.advbox:hover {
+  background: #330000;
+  box-shadow: 0 0 20px #ff0000, 0 0 8px #ff3333 inset;
+}
+    .glow {
+      animation: glow 1s infinite alternate;
     }
-    button {
-      padding: 12px 24px;
-      background: #1565c0;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    button:hover {
-      background: #1e88e5;
-    }
-    #tools {
-      display: none;
-      margin-top: 30px;
-    }
-    .card {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      margin: 10px 0;
-      border-radius: 16px;
-      box-shadow: 0 0 10px rgba(0, 0, 255, 0.2);
-    }
-    @media (max-width: 600px) {
-      input[type="text"] {
-        width: 90%;
+
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 5px #0f0;
       }
+      to {
+        box-shadow: 0 0 20px #0f0, 0 0 10px #0f0 inset;
+      }
+    }
+
+    .footer {
+      text-align: center;
+      color: #888;
+      font-size: 12px;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>TERMINATOR TOOLS 🌍</h1>
-    <div class="clock" id="clock"></div><div id="login">
-  <div class="form-group">
-    <input type="text" id="username" placeholder="Enter your name to start...">
-  </div>
-  <div class="form-group">
-    <button onclick="traceUser()">Enter Website</button>
-  </div>
-</div>
+  <header>
+    <h1>DEVELOPER RETIRED</h1>
 
-<div id="tools">
-  <div class="card">
-    <h2>🛠️ Tool 1: SQLMAP</h2>
-    <a href="/tools/sqlmap.html" target="_blank"><button>Open Tool</button></a>
-  </div>
-  <div class="card">
-    <h2>📎 Tool 2: WhatsApp Unban</h2>
-    <a href="/tools/unban.html" target="_blank"><button>Open Tool</button></a>
-  </div>
-  <div class="card">
-    <h2>💬 Submit a Suggestion</h2>
-    <a href="/suggest.html"><button>Send Suggestion</button></a>
-  </div>
-</div>
-
-  </div>  <script>
-    // Clock for Nairobi
-    function updateClock() {
-      const nairobiTime = new Date().toLocaleString('en-KE', { timeZone: 'Africa/Nairobi' });
-      document.getElementById('clock').textContent = `🕒 Nairobi Time: ${nairobiTime}`;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    // Trace and login
-    function traceUser() {
-      const username = document.getElementById('username').value.trim();
-      if (!username) return alert("Please enter your name");
-
-      fetch('/log-user', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username })
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          localStorage.setItem('terminator_user', JSON.stringify({ username, loginAt: new Date().toISOString() }));
-          document.getElementById('login').style.display = 'none';
-          document.getElementById('tools').style.display = 'block';
-        } else {
-          alert("❌ Failed to trace. Try again.");
-        }
-      })
-      .catch(() => alert("❌ Could not connect to server"));
-    }
-
-    // Auto-login from localStorage
-    window.onload = () => {
-      const localUser = localStorage.getItem('terminator_user');
-      if (localUser) {
-        document.getElementById('login').style.display = 'none';
-        document.getElementById('tools').style.display = 'block';
-      }
-    }
-  </script></body>
+</body>
 </html>
