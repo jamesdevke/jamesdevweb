@@ -1,102 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Suggest Feature - Terminator Network</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>WHATSAPP BAN PANEL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       margin: 0;
-      padding: 2rem;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #003366, #0066cc);
-      color: white;
+      font-family: 'Courier New', monospace;
+      background: #000;
+      color: #0f0;
+      padding: 20px;
+    }
+header {
+      text-align: center;
+      padding: 2em 1em;
+      background-color: rgba(0, 0, 0, 0.6);
+      box-shadow: 0 0 25px #00fff7;
     }
 
     h1 {
-      text-align: center;
-      margin-bottom: 2rem;
+      font-size: 2.2em;
+      color: #00fff7;
+      text-shadow: 0 0 15px #00fff7;
+    }
+.title-image {
+  width: 100%;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 16px 16px;
+}
+.step-line {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.delay1 { animation-delay: 0.5s; }
+.delay2 { animation-delay: 1s; }
+.delay3 { animation-delay: 1.5s; }
+.delay4 { animation-delay: 2s; }
+.delay5 { animation-delay: 2.5s; }
+.delay6 { animation-delay: 3s; }
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.title-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 0 0 16px 16px;
+}
+
+@media (max-width: 600px) {
+  .title-image img {
+    border-radius: 0 0 12px 12px;
+  }
+}
+.wa-channels {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.wa-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #25D366;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transition: background 0.2s ease;
+}
+
+.wa-button:hover {
+  background: #1ebf5c;
+}
+
+.wa-button img {
+  width: 20px;
+  height: 20px;
+}
+    .step {
+      background: #111;
+      border: 1px solid #0f0;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #0f0;
     }
 
-    form {
-      max-width: 600px;
-      margin: auto;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 2rem;
-      border-radius: 20px;
-      box-shadow: 0 0 10px #00faff;
+    .step h2 {
+      color: #0ff;
+      margin: 0 0 10px 0;
     }
 
-    input, textarea {
-      width: 100%;
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-      border: none;
-      border-radius: 10px;
-      font-size: 1rem;
+    .step p {
+      margin: 0;
+      color: #eee;
+    }
+.advbox {
+  background: #1a0000;
+  color: #ff3333;
+  border: 1px solid #ff0000;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 15px;
+  box-shadow: 0 0 15px #ff0000;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  user-select: none;
+}
+
+.advbox:hover {
+  background: #330000;
+  box-shadow: 0 0 20px #ff0000, 0 0 8px #ff3333 inset;
+}
+    .glow {
+      animation: glow 1s infinite alternate;
     }
 
-    button {
-      width: 100%;
-      padding: 1rem;
-      background: #00c6ff;
-      border: none;
-      color: white;
-      font-size: 1.1rem;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    button:hover {
-      background: #0099cc;
-    }
-
-    .message {
-      text-align: center;
-      margin-top: 1rem;
-      font-size: 1rem;
-    }
-
-    @media (max-width: 600px) {
-      body {
-        padding: 1rem;
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 5px #0f0;
       }
-
-      form {
-        padding: 1.2rem;
+      to {
+        box-shadow: 0 0 20px #0f0, 0 0 10px #0f0 inset;
       }
+    }
+
+    .footer {
+      text-align: center;
+      color: #888;
+      font-size: 12px;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
-  <h1>💡 Suggest a Feature</h1>
-  <form id="suggest-form">
-    <input type="text" id="name" placeholder="Your name" required />
-    <textarea id="suggestion" placeholder="Enter your suggestion or idea..." rows="6" required></textarea>
-    <button type="submit">Submit Suggestion</button>
-    <div class="message" id="message-area"></div>
-  </form>
+  <header>
+    <h1>DEVELOPER RETIRED</h1>
 
-  <script>
-    document.getElementById('suggest-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('name').value;
-      const text = document.getElementById('suggestion').value;
-
-      const res = await fetch('/suggest', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, text })
-      });
-
-      const message = await res.text();
-      document.getElementById('message-area').textContent = message;
-
-      document.getElementById('name').value = '';
-      document.getElementById('suggestion').value = '';
-    });
-  </script>
 </body>
 </html>
