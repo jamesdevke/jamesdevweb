@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel - Terminator Network</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #001f3f, #0074D9);
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      padding: 1.5rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .time {
+      position: fixed;
+      top: 10px;
+      right: 20px;
+      font-weight: bold;
+      color: #00faff;
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      box-shadow: 0 0 20px #00c6ff;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .panel h2 {
+      margin-top: 0;
+    }
+
+    .log-entry {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 0.8rem;
+      margin-bottom: 0.5rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .log-entry strong {
+      color: #00c6ff;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.85rem;
+      margin-top: 2rem;
+      opacity: 0.6;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+
+      .panel {
+        padding: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="time">Nairobi Time: <span id="nairobi-time">Loading...</span></div>
+  <h1>⚙️ ADMIN CONTROL PANEL</h1>
+
+  <div class="panel" id="live-users-panel">
+    <h2>🧍‍♂️ Tracked Users</h2>
+    <div id="users-log">Loading...</div>
+  </div>
+
+  <div class="panel" id="suggestions-panel">
+    <h2>💡 Suggestions</h2>
+    <div id="suggestions-log">Loading...</div>
+  </div>
+
+  <footer>
+    &copy; 2025 Terminator Admin System. Powered by Lord James.
+  </footer>
+
+  <script>
+    function updateNairobiTime() {
+      const now = new Date();
+      const nairobiOffset = 3 * 60;
+      const localOffset = now.getTimezoneOffset();
+      const nairobiTime = new Date(now.getTime() + (nairobiOffset + localOffset) * 60000);
+      document.getElementById("nairobi-time").textContent = nairobiTime.toLocaleTimeString('en-KE', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+    }
+    setInterval(updateNairobiTime, 1000);
+    updateNairobiTime();
+
+    async function fetchAdminData() {
+      try {
+        const key = 'jamesdev'; // Use from .env or replace later
+        const usersRes = await fetch(`/admin/users?key=${key}`);
+        const suggestionsRes = await fetch(`/admin/suggestions?key=${key}`);
+
+        const users = await usersRes.json();
+        const suggestions = await suggestionsRes.json();
+
+        // Populate users log
+        const usersLog = document.getElementById("users-log");
+        usersLog.innerHTML = users.reverse().map(u => `
+          <div class="log-entry">
+            <strong>${u.username}</strong><br/>
+            ID: ${u.id}<br/>
+            IP: ${u.ip}<br/>
+            Device: ${u.userAgent}<br/>
+            Time: ${u.timestamp}
+          </div>
+        `).join('');
+
+        // Populate suggestions
+        const suggestionsLog = document.getElementById("suggestions-log");
+        suggestionsLog.innerHTML = suggestions.reverse().map(s => `
+          <div class="log-entry">
+            <strong>${s.name}</strong>: ${s.text}<br/>
+            Time: ${s.timestamp}
+          </div>
+        `).join('');
+
+      } catch (err) {
+        console.error("Admin fetch failed", err);
+      }
+    }
+
+    setInterval(fetchAdminData, 4000);
+    fetchAdminData();
+  </script>
+</body>
+</html>
