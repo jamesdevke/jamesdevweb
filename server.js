@@ -1,76 +1,85 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const cors = require('cors');
-require('dotenv').config();
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const USERS_FILE = path.join(__dirname, 'users.json');
-const SUGGESTIONS_FILE = path.join(__dirname, 'suggestions.json');
+const adminKey = process.env.ADMIN_KEY || 'jamesdev';
 
-app.use(cors());
+// Middleware
 app.use(express.json());
-app.use(express.static('public'));
-app.use('/admin', express.static('admin'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/admin', express.static(path.join(__dirname, 'admin')));
 
-// Log User
-app.post('/log-user', (req, res) => {
-  const { username } = req.body;
-  if (!username) return res.status(400).json({ error: 'Username required' });
+// Ensure data files exist
+const ensureFile = (file) => {
+  if (!fs.existsSync(file)) fs.writeFileSync(file, '[]');
+};
 
-  const users = fs.existsSync(USERS_FILE)
-    ? JSON.parse(fs.readFileSync(USERS_FILE))
-    : [];
+ensureFile(path.join(__dirname, 'users.json'));
+ensureFile(path.join(__dirname, 'suggestions.json'));
 
-  const record = {
-    username,
+// 📥 Suggestion Handler
+app.post('/suggest', (req, res) => {
+  const { name, text } = req.body;
+  if (!name || !text) return res.status(400).send('Missing fields');
+
+  const suggestion = {
+    name,
+    text,
     timestamp: new Date().toISOString()
   };
 
-  users.push(record);
-  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
-  res.json({ success: true });
+  const file = path.join(__dirname, 'suggestions.json');
+  const suggestions = JSON.parse(fs.readFileSync(file));
+  suggestions.push(suggestion);
+  fs.writeFileSync(file, JSON.stringify(suggestions, null, 2));
+  res.send('✅ Suggestion submitted successfully!');
 });
 
-// Handle Suggestions
-app.post('/suggest', (req, res) => {
-  const { name, text } = req.body;
-  if (!name || !text) return res.status(400).send('Name and suggestion are required');
+// 🧠 User Tracking
+app.post('/track-user', (req, res) => {
+  const { username = 'Guest', ip, userAgent } = req.body;
 
-  const suggestions = fs.existsSync(SUGGESTIONS_FILE)
-    ? JSON.parse(fs.readFileSync(SUGGESTIONS_FILE))
-    : [];
-
-  suggestions.push({
-    name,
-    suggestion: text,
+  const user = {
+    id: Date.now().toString(),
+    username,
+    ip,
+    userAgent,
     timestamp: new Date().toISOString()
-  });
+  };
 
-  fs.writeFileSync(SUGGESTIONS_FILE, JSON.stringify(suggestions, null, 2));
-  res.send('✅ Suggestion submitted successfully');
+  const file = path.join(__dirname, 'users.json');
+  const users = JSON.parse(fs.readFileSync(file));
+  users.push(user);
+  fs.writeFileSync(file, JSON.stringify(users, null, 2));
+  res.sendStatus(200);
 });
 
-// Admin View Users
+// 🔐 Admin Routes (protected with key)
+
+// Get user logs
 app.get('/admin/users', (req, res) => {
-  const adminKey = req.query.key;
-  if (adminKey !== process.env.ADMIN_KEY) return res.status(403).json({ error: 'Forbidden' });
-
-  const data = fs.existsSync(USERS_FILE) ? JSON.parse(fs.readFileSync(USERS_FILE)) : [];
-  res.json(data);
+  if (req.query.key !== adminKey) return res.status(403).send('❌ Forbidden: Invalid key');
+  const file = path.join(__dirname, 'users.json');
+  const users = JSON.parse(fs.readFileSync(file));
+  res.json(users);
 });
 
-// Admin View Suggestions
+// Get suggestions
 app.get('/admin/suggestions', (req, res) => {
-  const adminKey = req.query.key;
-  if (adminKey !== process.env.ADMIN_KEY) return res.status(403).json({ error: 'Forbidden' });
-
-  const data = fs.existsSync(SUGGESTIONS_FILE) ? JSON.parse(fs.readFileSync(SUGGESTIONS_FILE)) : [];
-  res.json(data);
+  if (req.query.key !== adminKey) return res.status(403).send('❌ Forbidden: Invalid key');
+  const file = path.join(__dirname, 'suggestions.json');
+  const suggestions = JSON.parse(fs.readFileSync(file));
+  res.json(suggestions);
 });
 
+// ⛔ 404 Fallback
+app.use((req, res) => {
+  res.status(404).send('Page not found');
+});
+
+// ✅ Start server
 app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
+  console.log(`🚀 TERMINATOR server running at http://localhost:${PORT}`);
 });
